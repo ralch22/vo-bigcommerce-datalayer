@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html class="no-js" lang="{{ locale_name }}" prefix="og: http://ogp.me/ns#">
+    <head>
+        <title>{{ head.title }}</title>
+        {{{ head.meta_tags }}}
+        {{{ head.config }}}
+        {{#block "head"}} {{/block}}
+        <link href="{{ head.favicon }}" rel="shortcut icon">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        {{{stylesheet '/assets/css/theme.css'}}}
+        {{#if theme_settings.bootstrap_css}}
+            {{{stylesheet '/assets/vendor/bootstrap/css/bootstrap.css'}}}
+            {{{stylesheet '/assets/vendor/bootstrap/css/bootstrap-theme.css'}}}
+        {{/if}}
+        <link href="{{cdn '/assets/custom.css'}}" rel="stylesheet">
+        {{ getFontsCollection }}
+        <script src="{{cdn '/assets/modernizr-custom.js'}}"></script>
+
+        {{{head.scripts}}}
+        {{{head.rsslinks}}}
+
+        {{inject 'themeSettings' theme_settings}}
+        {{inject 'genericError' (lang 'common.generic_error')}}
+        {{inject 'maintenanceMode' settings.maintenance}}
+        {{inject 'urls' urls}}
+        {{{snippet 'htmlhead'}}}
+    </head>
+    <body>
+        
+        {{{snippet 'header'}}}
+        <div class="icons-svg-sprite">{{> components/common/icons/icon-defs }}</div>
+
+        {{#if settings.privacy_cookie}}
+            {{> components/common/cookie}}
+        {{/if}}
+
+        {{> components/common/header }}
+        {{> components/common/body }}
+        {{> components/common/footer }}
+
+        <script src="{{cdn '/assets/js/bundle.js'}}"></script>
+        <script>
+            // Exported in app.js
+            window.stencilBootstrap("{{template_file}}", {{jsContext}}).load();
+        </script>
+
+        {{{footer.scripts}}}
+        {{{snippet 'footer'}}}
+        <script>
+    var elem = document.querySelectorAll('.card');
+for (var i = 0; i < elem.length; i++) {
+  elem[i].addEventListener("click", function(){
+	title=$(this).find('.card-title').text()
+    price=$(this).find('.price').text()
+    window.dataLayer = window.dataLayer || [];
+   window.dataLayer.push({"event": "product_click", "title":title, 'price':price });
+});
+}
+</script>
+<script>
+var elem = document.querySelectorAll('.cart-remove');
+for (var i = 0; i < elem.length; i++) {
+  elem[i].addEventListener("click", function(){
+   dataLayer.push({"event": "remove_from_cart"});
+});
+}
+</script>
+    </body>
+</html>
